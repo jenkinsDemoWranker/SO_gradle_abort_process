@@ -1,0 +1,21 @@
+apply plugin: "groovy"
+
+dependencies {
+  compile gradleApi()
+}
+
+class CalcTask extends DefaultTask {
+    @TaskAction
+    def calculate() {
+        String cmd = './longRunningProcess.bat'
+        try {
+            def proc = cmd.execute()
+            proc.waitForProcessOutput(System.out, System.err)
+        } catch (Exception e) {
+            e.printStackTrace();
+            println 'Exception occured'
+        }
+    }
+}
+
+task calcTask(type: CalcTask)
